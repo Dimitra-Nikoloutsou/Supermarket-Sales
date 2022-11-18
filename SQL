@@ -1,0 +1,232 @@
+SELECT * FROM supermarket;
+
+--Check for NULLS
+select *
+from supermarket
+where 
+invoice_id is null or 
+branch is null or 
+city is null or 
+customer_type is null or
+gender is null or 
+product_line is null or 
+unit_price is null or 
+quantity is null or 
+tax_5 is null or 
+total is null or 
+date is null or 
+time is null or 
+payment is null or 
+cogs is null or 
+gross_margin_percentage is null or 
+gross_income is null or 
+rating is null
+;
+
+--Check for Duplicates
+with RowNumCTE as (
+Select *,
+ROW_NUMBER() OVER (PARTITION BY invoice_id ORDER BY invoice_id) row_num
+From supermarket
+)
+
+Select *
+From RowNumCTE
+Where row_num > 1
+
+--Change Date and Time datatype from textsupermarket
+SELECT * FROM supermarket
+order by date;
+
+SELECT 
+CONVERT(date, date, 101)
+from supermarket
+order by date;
+
+UPDATE supermarket
+set date=CONVERT(date, date, 101);
+
+SELECT 
+CONVERT(time, time, 8)
+from supermarket
+order by date;
+
+UPDATE supermarket
+set time=CONVERT(time, time, 8);
+
+--**Mining the data**
+
+SELECT * FROM supermarket;
+
+SELECT count(*) FROM supermarket;
+
+SELECT DISTINCT(product_line)
+from supermarket;
+
+SELECT DISTINCT(gender)
+from supermarket;
+
+SELECT DISTINCT(customer_type)
+from supermarket;
+
+SELECT DISTINCT(branch)
+from supermarket;
+
+SELECT DISTINCT(city)
+from supermarket;
+
+SELECT DISTINCT(payment)
+from supermarket;
+
+--Which gender spends most
+SELECT 
+gender,
+round((sum(total)),2) as total_spent_per_gender
+from supermarket
+group by gender
+ORDER by total_spent_per_gender DESC;
+
+--Customer type
+SELECT
+customer_type,
+count(*) as no_of_customers
+from supermarket
+group by customer_type
+order by no_of_customers DESC;
+
+--Gender per customer typesupermarket
+SELECT
+customer_type,
+gender,
+count(*) as no_of_customers
+from supermarket
+group by customer_type, gender
+order by customer_type, no_of_customers DESC;
+
+--Sales by customer_type
+SELECT 
+customer_type,
+round((sum(total)),2) as total_spent_per_gender
+from supermarket
+group by customer_type
+ORDER by total_spent_per_gender DESC;
+
+--Sales by gender & customer_type
+SELECT 
+gender,
+customer_type,
+round((sum(total)),2) as total_spent_per_gender
+from supermarket
+group by gender, customer_type
+ORDER by total_spent_per_gender DESC;
+
+--Which product line sells most
+SELECT
+product_line,
+round((sum(total)),2) as total_spent_per_product_line
+from supermarket
+group by product_line
+order by total_spent_per_product_line desc;
+
+--Which product line is preferred by genders
+with preferred as (SELECT
+product_line,
+gender,
+round((sum(total)),2) as total_spent_per_product_line,
+row_number() over(partition by product_line order by round((sum(total)),2) desc) as rn
+from supermarket
+group by product_line, gender)
+
+SELECT
+product_line,
+gender,
+total_spent_per_product_line
+from preferred
+where rn=1
+;
+
+--Units sold per product line
+SELECT
+product_line,
+sum(quantity) as total_units
+from supermarket
+GROUP BY product_line
+order by total_units desc;
+
+--Which day od week most sales
+SELECT DATENAME(WEEKDAY, date)
+from supermarket;
+
+ALTER TABLE supermarket
+ADD weekday varchar(50);
+
+UPDATE supermarket
+set weekday=DATENAME(WEEKDAY, date);
+
+select *
+from supermarket;
+
+SELECT
+weekday,
+round((AVG(total)),2) as avg_sales,
+round((sum(total)),2) as total_sales
+from supermarket
+group by weekday
+order by avg_sales desc, total_sales DESC;
+
+--Most popular payment method
+SELECT
+DISTINCT(payment),
+count(*) as no_of_customers
+from supermarket
+group by payment
+order by no_of_customers DESC;
+
+--Best Rating branch
+SELECT 
+branch,
+city,
+round((avg(rating)),2) as avg_rating
+from supermarket
+GROUP by branch, city
+order by avg_rating DESC;
+
+--Branches growth rate across months
+SELECT *
+from supermarket
+order by date;
+
+SELECT
+branch,
+round((sum(gross_income)),2) as total_gross
+from supermarket
+group by branch
+order by total_gross DESC;
+
+with cte as (SELECT
+branch,
+month(date) as month,
+round((sum(gross_income)),2) as total_gross
+from supermarket
+group by branch, month(date)
+), cte1 as (
+SELECT
+*,
+lag(total_gross) over(partition by branch order by branch, month) as lag
+from cte)
+
+SELECT
+*,
+round(((total_gross-lag)/lag*100),2) as growth
+from cte1
+;
+
+
+
+
+
+
+
+
+
+
