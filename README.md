@@ -17,3 +17,6 @@ The business task is to explore and analyse the data in order to answer the foll
 <p>• Which is the most popular day and time of the week? </p>
 <p>• What is the growth rate of each branch across these three months? </p>
 
+
+<h2>Visualisation</h2>
+
