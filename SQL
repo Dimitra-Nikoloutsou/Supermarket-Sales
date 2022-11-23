@@ -78,6 +78,10 @@ from supermarket;
 SELECT DISTINCT(payment)
 from supermarket;
 
+--Total Sales
+SELECT sum(total)
+from supermarket;
+
 --Which gender spends most
 SELECT 
 gender,
@@ -94,7 +98,7 @@ from supermarket
 group by customer_type
 order by no_of_customers DESC;
 
---Gender per customer typesupermarket
+--Gender per customer type
 SELECT
 customer_type,
 gender,
@@ -103,7 +107,7 @@ from supermarket
 group by customer_type, gender
 order by customer_type, no_of_customers DESC;
 
---Sales by customer_type
+--Sales by customer type
 SELECT 
 customer_type,
 round((sum(total)),2) as total_spent_per_gender
@@ -153,7 +157,7 @@ from supermarket
 GROUP BY product_line
 order by total_units desc;
 
---Which day od week most sales
+--Which day of week has the most sales
 SELECT DATENAME(WEEKDAY, date)
 from supermarket;
 
