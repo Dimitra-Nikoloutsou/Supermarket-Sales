@@ -1,6 +1,6 @@
 SELECT * FROM supermarket;
 
-<b>--Check for NULLS</b>
+--Check for NULLS
 select *
 from supermarket
 where 
