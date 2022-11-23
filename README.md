@@ -26,7 +26,7 @@ The business task is to explore and analyse the data in order to answer the foll
 
 <h1> INSIGHTS </h1>
 
-There are 1000 records of 3 branches, A branch is in Yangon eith 340 customers, B branch is in Mandalay with 332 customers and C is in Naypyitaw with 328 customers.
+There are 1000 records of 3 branches, A branch is in Yangon with 340 customers, B branch is in Mandalay with 332 customers and C is in Naypyitaw with 328 customers.
 There are 501 members and 499 normal customers. Also 501 of the customers are women and 499 men.
 
 <p>• Female members and generally females tend to spend more than males.</p>
