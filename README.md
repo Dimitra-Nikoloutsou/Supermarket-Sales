@@ -22,7 +22,7 @@ The business task is to explore and analyse the data in order to answer the foll
 
 <a href="https://public.tableau.com/app/profile/dimitra.nikoloutsou/viz/supermarketsales_16690347034990/Dashboard1">Tableau link</a> (Interactive Dashboard)
 
-![Dashboard 1](https://user-images.githubusercontent.com/114480002/203502249-71b0e1b9-4439-41b1-ac74-d07e26920c1c.png)
+![Dashboard 1](https://user-images.githubusercontent.com/114480002/205246685-b870b04b-cab2-4f50-bb7a-d42e1702ba49.png)
 
 <h1> INSIGHTS </h1>
 
