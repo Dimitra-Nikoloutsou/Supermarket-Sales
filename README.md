@@ -19,7 +19,7 @@ The business task is to explore and analyse the data in order to answer the foll
 
 <h3>1.Ask</h3>
 
-First step is to identify the business task.  The task is to uncover insights and trends related to sales of every supermarket branch.
+First step is to identify the business task.  The task is to uncover insights and trends related to sales of every branch.
 
 
 <h3>2.Prepare</h3>
