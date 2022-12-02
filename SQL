@@ -34,7 +34,7 @@ Select *
 From RowNumCTE
 Where row_num > 1
 
---Change Date and Time datatype from textsupermarket
+--Change Date and Time datatype from text
 SELECT * FROM supermarket
 order by date;
 
