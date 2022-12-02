@@ -17,7 +17,26 @@ The business task is to explore and analyse the data in order to answer the foll
 <p>• Which is the most popular day and time of the week? </p>
 <p>• What is the growth rate of each branch across these three months? </p>
 
+<h3>1.Ask</h3>
 
+First step is to identify the business task.  The task is to uncover insights and trends related to sales of every supermarket branch.
+
+
+<h3>2.Prepare</h3>
+
+I downloaded the .csv file from Kaggle and imported in MS SQL Server database management system in order to clean and analyse the data.
+
+<h3>3.Process</h3>
+
+The dataset was ckecked for nulls and duplicates. Then I fixed date and time format. Then I explored the data and proceed to the analysis.
+
+<h3>4.Analyse</h3>
+
+View <a href="https://github.com/Dimitra-Nikoloutsou/Supermarket-Sales/blob/main/SQL">SQL File</a>
+
+I exported it in .csv file and imported it in Tableau Public.
+
+<h3>5.Share</h3>
 <h2>Visualisation</h2>
 
 <a href="https://public.tableau.com/app/profile/dimitra.nikoloutsou/viz/supermarketsales_16690347034990/Dashboard1">Tableau link</a> (Interactive Dashboard)
