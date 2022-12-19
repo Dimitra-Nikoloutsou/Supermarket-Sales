@@ -28,7 +28,7 @@ I downloaded the .csv file from Kaggle and imported in MS SQL Server database ma
 
 <h3>3.Process</h3>
 
-The dataset was ckecked for nulls and duplicates. Then I fixed date and time format. Then I explored the data and proceed to the analysis.
+The dataset was checked for nulls and duplicates. Then I fixed date and time format. Then I explored the data and proceed to the analysis.
 
 <h3>4.Analyse</h3>
 
