@@ -11,7 +11,7 @@ The dataset is one of the historical sales of supermarket company which has reco
 The business task is to explore and analyse the data in order to answer the following questions:
 
 <p>• Who spends more depending on gender and customer type? </p>
-<p>• Which product line is more profitable? </p>
+<p>• Which product category sells the most? </p>
 <p>• How many units were sold per product line? </p>
 <p>• Which is the most popular payment method? </p>
 <p>• Which is the most popular day and time of the week? </p>
