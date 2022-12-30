@@ -1,58 +1,58 @@
 SELECT * FROM supermarket;
 
---Check for NULLS
-select *
-from supermarket
-where 
-invoice_id is null or 
-branch is null or 
-city is null or 
-customer_type is null or
-gender is null or 
-product_line is null or 
-unit_price is null or 
-quantity is null or 
-tax_5 is null or 
-total is null or 
-date is null or 
-time is null or 
-payment is null or 
-cogs is null or 
-gross_margin_percentage is null or 
-gross_income is null or 
-rating is null
+--CHECK FOR NULLS
+SELECT *
+FROM supermarket
+WHERE
+invoice_id IS NULL OR 
+branch IS NULL OR 
+city IS NULL OR  
+customer_type IS NULL OR 
+gender IS NULL OR 
+product_line IS NULL OR 
+unit_price IS NULL OR  
+quantity IS NULL OR  
+tax_5 IS NULL OR 
+total IS NULL OR 
+date IS NULL OR  
+time IS NULL OR 
+payment IS NULL OR  
+cogs IS NULL OR 
+gross_margin_percentage IS NULL OR  
+gross_income IS NULL OR 
+rating IS NULL
 ;
 
---Check for Duplicates
-with RowNumCTE as (
-Select *,
+--CHECK FOR DUPLICATES
+WITH RowNumCTE AS (
+SELECT *,
 ROW_NUMBER() OVER (PARTITION BY invoice_id ORDER BY invoice_id) row_num
-From supermarket
+FROM supermarket
 )
 
-Select *
-From RowNumCTE
-Where row_num > 1
+SELECT *
+FROM RowNumCTE
+WHERE row_num > 1
 
 --Change Date and Time datatype from text
 SELECT * FROM supermarket
-order by date;
+ORDER BY date;
 
 SELECT 
 CONVERT(date, date, 101)
-from supermarket
-order by date;
+FROM supermarket
+ORDER BY date;
 
 UPDATE supermarket
-set date=CONVERT(date, date, 101);
+SET date=CONVERT(date, date, 101);
 
 SELECT 
 CONVERT(time, time, 8)
-from supermarket
-order by date;
+FROM supermarket
+ORDER BY date;
 
 UPDATE supermarket
-set time=CONVERT(time, time, 8);
+SET time=CONVERT(time, time, 8);
 
 --**Mining the data**
 
@@ -61,168 +61,168 @@ SELECT * FROM supermarket;
 SELECT count(*) FROM supermarket;
 
 SELECT DISTINCT(product_line)
-from supermarket;
+FROM supermarket;
 
 SELECT DISTINCT(gender)
-from supermarket;
+FROM supermarket;
 
 SELECT DISTINCT(customer_type)
-from supermarket;
+FROM supermarket;
 
 SELECT DISTINCT(branch)
-from supermarket;
+FROM supermarket;
 
 SELECT DISTINCT(city)
-from supermarket;
+FROM supermarket;
 
 SELECT DISTINCT(payment)
-from supermarket;
+FROM supermarket;
 
 --Total Sales
 SELECT sum(total)
-from supermarket;
+FROM supermarket;
 
 --Which gender spends most
 SELECT 
 gender,
-round((sum(total)),2) as total_spent_per_gender
-from supermarket
-group by gender
-ORDER by total_spent_per_gender DESC;
+ROUND((sum(total)),2) AS total_spent_per_gender
+FROM supermarket
+GROUP BY gender
+ORDER BY total_spent_per_gender DESC;
 
 --Customer type
 SELECT
 customer_type,
-count(*) as no_of_customers
-from supermarket
-group by customer_type
-order by no_of_customers DESC;
+COUNT(*) AS no_of_customers
+FROM supermarket
+GROUP BY customer_type
+ORDER BY no_of_customers DESC;
 
 --Gender per customer type
 SELECT
 customer_type,
 gender,
-count(*) as no_of_customers
-from supermarket
-group by customer_type, gender
-order by customer_type, no_of_customers DESC;
+COUNT(*) AS no_of_customers
+FROM supermarket
+GROUP BY customer_type, gender
+ORDER BY customer_type, no_of_customers DESC;
 
 --Sales by customer type
 SELECT 
 customer_type,
-round((sum(total)),2) as total_spent_per_gender
-from supermarket
-group by customer_type
-ORDER by total_spent_per_gender DESC;
+ROUND((sum(total)),2) AS total_spent_per_gender
+FROM supermarket
+GROUP BY customer_type
+ORDER BY total_spent_per_gender DESC;
 
 --Sales by gender & customer_type
 SELECT 
 gender,
 customer_type,
-round((sum(total)),2) as total_spent_per_gender
-from supermarket
-group by gender, customer_type
-ORDER by total_spent_per_gender DESC;
+ROUND((sum(total)),2) AS total_spent_per_gender
+FROM supermarket
+GROUP BY gender, customer_type
+ORDER BY total_spent_per_gender DESC;
 
 --Which product line sells most
 SELECT
 product_line,
-round((sum(total)),2) as total_spent_per_product_line
-from supermarket
-group by product_line
-order by total_spent_per_product_line desc;
+ROUND((sum(total)),2) AS total_spent_per_product_line
+FROM supermarket
+GROUP BY product_line
+ORDER BY total_spent_per_product_line desc;
 
 --Which product line is preferred by genders
-with preferred as (SELECT
+WITH preferred AS (SELECT
 product_line,
 gender,
-round((sum(total)),2) as total_spent_per_product_line,
-row_number() over(partition by product_line order by round((sum(total)),2) desc) as rn
-from supermarket
-group by product_line, gender)
+ROUND((SUM(total)),2) AS total_spent_per_product_line,
+ROW_NUMBER() OVER(PARTITION BY product_line ORDER BY ROUND((SUM(total)),2) DESC) AS rn
+FROM supermarket
+GROUP BY product_line, gender)
 
 SELECT
 product_line,
 gender,
 total_spent_per_product_line
-from preferred
-where rn=1
+FROM preferred
+WHERE rn=1
 ;
 
 --Units sold per product line
 SELECT
 product_line,
-sum(quantity) as total_units
-from supermarket
+SUM(quantity) AS total_units
+FROM supermarket
 GROUP BY product_line
-order by total_units desc;
+ORDER BY total_units desc;
 
 --Which day of week has the most sales
 SELECT DATENAME(WEEKDAY, date)
-from supermarket;
+FROM supermarket;
 
 ALTER TABLE supermarket
 ADD weekday varchar(50);
 
 UPDATE supermarket
-set weekday=DATENAME(WEEKDAY, date);
+SET weekday=DATENAME(WEEKDAY, date);
 
-select *
-from supermarket;
+SELECT *
+FROM supermarket;
 
 SELECT
 weekday,
-round((AVG(total)),2) as avg_sales,
-round((sum(total)),2) as total_sales
-from supermarket
-group by weekday
-order by avg_sales desc, total_sales DESC;
+ROUND((AVG(total)),2) AS avg_sales,
+ROUND((SUM(total)),2) AS total_sales
+FROM supermarket
+GROUP BY weekday
+ORDER BY avg_sales desc, total_sales DESC;
 
 --Most popular payment method
 SELECT
 DISTINCT(payment),
-count(*) as no_of_customers
-from supermarket
-group by payment
-order by no_of_customers DESC;
+COUNT(*) as no_of_customers
+FROM supermarket
+GROUP BY payment
+ORDER BY no_of_customers DESC;
 
 --Best Rating branch
 SELECT 
 branch,
 city,
-round((avg(rating)),2) as avg_rating
-from supermarket
-GROUP by branch, city
-order by avg_rating DESC;
+ROUND((AVG(rating)),2) AS avg_rating
+FROM supermarket
+GROUP BY branch, city
+ORDER BY avg_rating DESC;
 
 --Branches growth rate across months
 SELECT *
-from supermarket
-order by date;
+FROM supermarket
+ORDER BY date;
 
 SELECT
 branch,
-round((sum(gross_income)),2) as total_gross
-from supermarket
-group by branch
-order by total_gross DESC;
+ROUND((SUM(gross_income)),2) AS total_gross
+FROM supermarket
+GROUP BY branch
+ORDER BY total_gross DESC;
 
-with cte as (SELECT
+WITH cte AS (SELECT
 branch,
-month(date) as month,
-round((sum(gross_income)),2) as total_gross
-from supermarket
-group by branch, month(date)
-), cte1 as (
+MONTH(date) AS month,
+ROUND((sum(gross_income)),2) AS total_gross
+FROM supermarket
+GROUP BY branch, month(date)
+), cte1 AS (
 SELECT
 *,
-lag(total_gross) over(partition by branch order by branch, month) as lag
-from cte)
+LAG(total_gross) OVER(PARTITION BY branch ORDER BY branch, month) AS lag
+FROM cte)
 
 SELECT
 *,
-round(((total_gross-lag)/lag*100),2) as growth
-from cte1
+ROUND(((total_gross-lag)/lag*100),2) AS growth
+FROM cte1
 ;
 
 
